@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel management</title>
+</head>
+<body>
+    <h1>Hotel management</h1>
+    class Hotel:
+    def __init__(self, name, total_rooms):
+        self.name = name
+        self.total_rooms = total_rooms
+        self.available_rooms = total_rooms
+        self.room_details = {}
+
+    def check_in(self, room_number, guest_name):
+        if self.available_rooms > 0 and room_number not in self.room_details:
+            self.room_details[room_number] = guest_name
+            self.available_rooms -= 1
+            print(f"Check-in successful! Room {room_number} is now booked for {guest_name}.")
+        elif room_number in self.room_details:
+            print(f"Room {room_number} is already booked by {self.room_details[room_number]}.")
+        else:
+            print("No rooms available for check-in!")
+
+    def check_out(self, room_number):
+        if room_number in self.room_details:
+            guest_name = self.room_details.pop(room_number)
+            self.available_rooms += 1
+            print(f"Check-out successful! Room {room_number} is now free.")
+        else:
+            print(f"Room {room_number} is not currently booked.")
+
+    def show_available_rooms(self):
+        if self.available_rooms == self.total_rooms:
+            print("All rooms are available!")
+        else:
+            print(f"{self.available_rooms} out of {self.total_rooms} rooms are available.")
+
+    def list_rooms(self):
+        if not self.room_details:
+            print("No rooms are currently booked.")
+        else:
+            print("Booked rooms and guests:")
+            for room, guest in self.room_details.items():
+                print(f"Room {room}: {guest}")
+
+def main():
+    print("Welcome to the Hotel Management System!")
+    hotel_name = input("Enter hotel name: ")
+    total_rooms = int(input("Enter total number of rooms: "))
+    hotel = Hotel(hotel_name, total_rooms)
+
+    while True:
+        print("\nMenu:")
+        print("1. Check-in")
+        print("2. Check-out")
+        print("3. Show available rooms")
+        print("4. List all rooms")
+        print("5. Exit")
+
+        choice = int(input("Enter your choice: "))
+
+        if choice == 1:
+            room_number = int(input("Enter room number to check-in: "))
+            guest_name = input("Enter guest name: ")
+            hotel.check_in(room_number, guest_name)
+
+        elif choice == 2:
+            room_number = int(input("Enter room number to check-out: "))
+            hotel.check_out(room_number)
+
+        elif choice == 3:
+            hotel.show_available_rooms()
+
+        elif choice == 4:
+            hotel.list_rooms()
+
+        elif choice == 5:
+            print("Thank you for using the Hotel Management System!")
+            break
+
+        else:
+            print("Invalid choice! Please select a valid option.")
+
+if __name__ == "__main__":
+    main()
+
+    
+</body>
+</html>
